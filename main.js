@@ -15,7 +15,7 @@ require([], function(){
     // setup a scene and camera
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
-    camera.position.z = 3;
+    camera.position.z = 20;
 
     // declare the rendering loop
     var onRenderFcts= [];
@@ -40,15 +40,11 @@ require([], function(){
     //		add an object and make it move					//
     //////////////////////////////////////////////////////////////////////////////////
 
-    // add cylinder
-    var geometry = new THREE.CylinderGeometry(0.5, 0.5, 2);
-    var material = new THREE.MeshPhongMaterial();
-    var mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    var myCone = new Cone(40);
-    var coneMat = new THREE.MeshPhongMaterial({color:0x0f0650});
-    scene.add(new THREE.Mesh(myCone, coneMat));
+    // add cylinder (actually cone)
+    var cone = new THREE.CylinderGeometry(0, 0.5, 2);
+    var coneMat = new THREE.MeshPhongMaterial();
+    var coneMesh = new THREE.Mesh(cone, coneMat);
+    scene.add(coneMesh);
 
     geometry	= new THREE.CubeGeometry( 1, 1, 1);
     material	= new THREE.MeshPhongMaterial();
@@ -58,6 +54,7 @@ require([], function(){
     onRenderFcts.push(function(delta, now){
         mesh.rotateX(0.5 * delta);
         mesh.rotateY(2.0 * delta);
+        coneMesh.rotateZ(0.5 * delta);
     })
 
     //////////////////////////////////////////////////////////////////////////////////
