@@ -46,6 +46,10 @@ require([], function(){
     var mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
+    var myCone = new Cone(40);
+    var coneMat = new THREE.MeshPhongMaterial({color:0x0f0650});
+    scene.add(new THREE.Mesh(myCone, coneMat));
+
     geometry	= new THREE.CubeGeometry( 1, 1, 1);
     material	= new THREE.MeshPhongMaterial();
     mesh	= new THREE.Mesh( geometry, material );

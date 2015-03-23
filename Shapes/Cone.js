@@ -1,9 +1,6 @@
-/**
- * Created by Ryan on 3/23/2015.
- */
-
 var Cone = function (Ndiv) {
     var geometry = new THREE.BufferGeometry();
+    console.log(geometry);
 
     var vertexArr = new Float32Array(3 * (Ndiv + 1));
     var angle = 0;
