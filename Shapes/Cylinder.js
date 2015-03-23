@@ -4,14 +4,14 @@
 
 var Cylinder = function (topRad, botRad, height, faces) {
     var geometry = new THREE.BufferGeometry();
-    var N_POINTS = faces * 2;
+    var N_POINTS = faces * 2.0;
     var vertexArr = new Float32Array(3 * (2 * N_POINTS + 1));
     var delta = 2 * Math.PI / N_POINTS;
 
     /* points in top ring */
 
     var angle = 0.0;
-    for(k = 0; k < N_POINTS; k++){
+    for(var k = 0; k < N_POINTS; k++){
         // x, y, z
         vertexArr[3 * k] = topRad * Math.cos(angle);
         vertexArr[3 * k + 1] = topRad * Math.sin(angle);
@@ -21,7 +21,7 @@ var Cylinder = function (topRad, botRad, height, faces) {
 
     /* points in bottom ring */
     angle = 0.0;
-    for(k = 0; k < N_POINTS; k++){
+    for(var k = 0; k < N_POINTS; k++){
         // x, y, z
         vertexArr[3 * 2 * k] = botRad * Math.cos(angle);
         vertexArr[3 * 2 * k + 1] = botRad * Math.sin(angle);
@@ -44,7 +44,7 @@ var Cylinder = function (topRad, botRad, height, faces) {
     var norm = new THREE.Vector3();
     for(var n = 1; n <= 2; n++){
         angle = 0.0;
-        for(k = 0; k < N_POINTS; k++){
+        for(var k = 0; k < N_POINTS; k++){
             var xTop = topRad * Math.cos(angle);
             var yTop = topRad * Math.sin(angle);
             var xBot = botRad * Math.cos(angle);
@@ -72,7 +72,7 @@ var Cylinder = function (topRad, botRad, height, faces) {
 
     // fill in sides
     var i = 0;
-    for(k = 0; k < N_POINTS; k++){
+    for(var k = 0; k < N_POINTS; k++){
         indexArr[i] = k;
         indexArr[i + 1] = k + N_POINTS;
         i += 2;
