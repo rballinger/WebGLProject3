@@ -32,10 +32,9 @@ require([], function(){
 
     var ambientLight= new THREE.AmbientLight( 0x020202 )
     scene.add( ambientLight)
-    var frontLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
-    frontLight.position.set(0, 5, 1);
-    //frontLight.rotateY(THREE.Math.degToRad(-90));
-    scene.add( frontLight )
+    var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
+    aboveLight.position.set(0, 5, 1);
+    scene.add( aboveLight )
     var backLight	= new THREE.DirectionalLight('white', 0.75)
     backLight.position.set(-0.5, -0.5, -2)
     scene.add( backLight )
@@ -44,11 +43,25 @@ require([], function(){
     //		add an object and make it move					//
     //////////////////////////////////////////////////////////////////////////////////
 
+    var car_cf = new THREE.Matrix4();
+    car_cf.makeTranslation(3, 0, 0);
+
+    var tran = new THREE.Vector3();
+    var quat = new THREE.Quaternion();
+    var rot = new THREE.Quaternion();
+    var vscale = new THREE.Vector3();
+
+    // car_cf.multiply(new THREE.Matrix4().makeRotationZ(THREE.Math.degToRad(delta * 72)));
+    car_cf.decompose(tran, quat, vscale);
+
     // add car
     var car = new Car(60);
     var carMat = new THREE.MeshPhongMaterial();
     var carMesh = new THREE.Mesh(car, carMat);
+    carMesh.position.copy(tran);
     scene.add(carMesh);
+
+
 
     // add cylinder (actually cone)
     var cone = new THREE.CylinderGeometry(0, 0.5, 2);

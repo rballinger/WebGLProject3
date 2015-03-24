@@ -63,3 +63,7 @@ var Car = function (Ndiv) {
     geometry.computeBoundingSphere();
     return geometry;
 }
+
+/* Inherit from THREE.Object3D */
+Car.prototype = Object.create (THREE.Object3D.prototype);
+Car.prototype.constructor = Car;
