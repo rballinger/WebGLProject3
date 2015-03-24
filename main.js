@@ -48,7 +48,7 @@ require([], function(){
     var vscale = new THREE.Vector3();
 
     var car_cf = new THREE.Matrix4();
-    car_cf.makeTranslation(5, 5, 0);
+    car_cf.makeTranslation(1, 1, 0);
     // car_cf.multiply(new THREE.Matrix4().makeRotationZ(THREE.Math.degToRad(delta * 72)));
     car_cf.decompose(tran, quat, vscale);
 
