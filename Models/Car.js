@@ -3,8 +3,17 @@
  */
 
 var Car = function () {
+    var CHASSIS_LEN = 20;
+    var CHASSIS_WIDTH = 8;
+    var CHASSIS_HEIGHT = 3;
+    var OFF_GROUND = 1.25;
+    var SUBDIV = 40;
+    var ROOF = 2;
+    var SECTION_LEN = CHASSIS_LEN / SUBDIV;
     var geometry = new THREE.BufferGeometry();
     var Ndiv = 40;
+
+    var vertexArr2 = new Float32Array();
 
     var vertexArr = new Float32Array(3 * (Ndiv + 1));
     var angle = 0;

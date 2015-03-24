@@ -29,13 +29,13 @@ require([], function(){
     //////////////////////////////////////////////////////////////////////////////////
 
     var ambientLight= new THREE.AmbientLight( 0x020202 );
-    ambientLight.position.set(0, 20, 0);
+    ambientLight.position.set(0, 0, 20);
     scene.add( ambientLight);
     var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
-    aboveLight.position.set(0, 5, 1);
+    aboveLight.position.set(0, 0, 5);
     scene.add( aboveLight );
     var backLight	= new THREE.DirectionalLight('white', 0.75);
-    backLight.position.set(0, 10, 0);
+    backLight.position.set(2, 2, 10);
     scene.add( backLight );
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ require([], function(){
     var vscale = new THREE.Vector3();
 
     var car_cf = new THREE.Matrix4();
-    car_cf.makeTranslation(3, 0, 3);
+    car_cf.makeTranslation(5, 5, 0);
     // car_cf.multiply(new THREE.Matrix4().makeRotationZ(THREE.Math.degToRad(delta * 72)));
     car_cf.decompose(tran, quat, vscale);
 
@@ -64,20 +64,24 @@ require([], function(){
     var cone = new THREE.CylinderGeometry(0, 0.5, 2);
     var coneMat = new THREE.MeshPhongMaterial();
     var coneMesh = new THREE.Mesh(cone, coneMat);
-    coneMesh.position.set(0, 1.5, 0);
+    coneMesh.position.set(0, 0, 1.5);
     scene.add(coneMesh);
 
-    var geometry	= new THREE.BoxGeometry( 1, 1, 1);
-    var material	= new THREE.MeshPhongMaterial();
-    var mesh	= new THREE.Mesh( geometry, material );
-    mesh.position.set(0, 3, 0);
+    var geometry = new THREE.BoxGeometry( 1, 1, 1);
+    var material = new THREE.MeshPhongMaterial();
+    var mesh = new THREE.Mesh( geometry, material );
+    mesh.position.set(0, 0, 3);
     scene.add( mesh );
 
     var groundPlane = new THREE.PlaneBufferGeometry(20, 20, 4, 4);
     var groundMat = new THREE.MeshPhongMaterial({color:0x1d6438, ambient:0x1d6438});
     var ground = new THREE.Mesh (groundPlane, groundMat);
-    ground.rotateX(THREE.Math.degToRad(-90));
+    //ground.rotateX(THREE.Math.degToRad(-90));
     scene.add (ground);
+
+    // corrects view so coord system is oriented 'normal' since camera won't move
+    scene.rotateX(THREE.Math.degToRad(-90));
+    scene.rotateZ(THREE.Math.degToRad(-90));
 
     onRenderFcts.push(function(delta, now){
         mesh.rotateX(0.5 * delta);
