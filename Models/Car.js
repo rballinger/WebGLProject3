@@ -65,67 +65,6 @@ var Car = function () {
 
     geometry.computeBoundingSphere();
     return geometry;
-
-    //var geometry2 = new THREE.BufferGeometry();
-    //var Ndiv = 40;
-    //
-    //var vertexArr2 = new Float32Array(3 * (Ndiv + 1));
-    //var angle = 0;
-    //var dAngle = 2 * Math.PI / Ndiv;
-    //for (var k = 0; k < Ndiv; k++) {
-    //    vertexArr2[3 * k] = 0.5 * Math.cos(angle);
-    //    vertexArr2[3 * k + 1] = 0.5 * Math.sin(angle);
-    //    vertexArr2[3 * k + 2] = 0.0;
-    //    angle += dAngle;
-    //}
-    //vertexArr2[3 * Ndiv] = 0;
-    ///* tip of the cone at (0,0,1) */
-    //vertexArr2[3 * Ndiv + 1] = 0;
-    //vertexArr2[3 * Ndiv + 2] = 1;
-    //geometry2.addAttribute('position', new THREE.BufferAttribute(vertexArr2, 3));
-    //
-    ///* similar to glNormalPointer */
-    //var normalArr2 = new Float32Array(vertexArr2.length);
-    //angle = 0;
-    //var norm = new THREE.Vector3();
-    //for (var k = 0; k < Ndiv; k++) {
-    //    norm.x = Math.cos(angle);
-    //    norm.y = Math.sin(angle);
-    //    norm.z = 1;
-    //    norm.normalize();
-    //    normalArr2[3 * k] = norm.x;
-    //    normalArr2[3 * k + 1] = norm.y;
-    //    normalArr2[3 * k + 2] = norm.z;
-    //    angle += dAngle;
-    //}
-    //normalArr2[3 * Ndiv] = 0;
-    //normalArr2[3 * Ndiv + 1] = 0;
-    //normalArr2[3 * Ndiv + 2] = 1;
-    //geometry2.addAttribute('normal', new THREE.BufferAttribute(normalArr2, 3));
-
-    /* similar to glColorPointer */
-    //var colorArr = new Float32Array(vertexArr2.length);
-    //var color = new THREE.Color;
-    //for (var k = 0; k < Ndiv + 1; k++) {
-    //    color.r = baseColor.r + Math.random() * 0.3;
-    //    color.g = baseColor.g + Math.random() * 0.3;
-    //    color.b = baseColor.b + Math.random() * 0.3;
-    //    colorArr[3 * k] = color.r;
-    //    colorArr[3 * k + 1] = color.g;
-    //    colorArr[3 * k + 2] = color.b;
-    //}
-    //geometry.addAttribute('color', new THREE.BufferAttribute(colorArr, 3));
-
-    //var indexArr2 = new Uint32Array(Ndiv * 3);
-    //for (var k = 0; k < Ndiv; k++) {
-    //    indexArr2[3 * k] = Ndiv;
-    //    indexArr2[3 * k + 1] = k;
-    //    indexArr2[3 * k + 2] = (k + 1) % Ndiv;
-    //}
-    //geometry2.addAttribute('index', new THREE.BufferAttribute(indexArr2, 1));
-    //
-    ////geometry2.computeBoundingSphere();
-    //return geometry2;
 }
 
 /* Inherit from THREE.Object3D */
