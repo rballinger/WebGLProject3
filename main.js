@@ -104,10 +104,55 @@ require([], function(){
     }, false);
 
     var speed = 0.5;
+    var shift = false;  // if shift is being held or not
     document.addEventListener('keydown', function(event){
         switch(event.which){
-            case 88:    // 'x' moves along +x-axis, camera moves different tho
-                camera.position.z +=  speed;
+            case 16:    // hold shift to rotate objects
+                shift = !shift;
+                break;
+            case 65:    // 'a' moves along normal +x-axis, rotates on +z-axis
+                if(shift)
+                    camera.rotateY(THREE.Math.degToRad(speed * 5));
+                else
+                    camera.position.z += speed;
+                break;
+            case 68:    // 'd' moves along normal +x-axis, rotates on -z-axis
+                if(shift)
+                    camera.rotateY(THREE.Math.degToRad(-speed * 5));
+                else
+                    camera.position.z -= speed;
+                break;
+            case 69:    // 'e' moves along normal +y-axis, rotates on -x-axis
+                if(shift)
+                    camera.rotateZ(THREE.Math.degToRad(-speed * 5));
+                else
+                    camera.position.x += speed;
+                break;
+            case 81:    // 'q' moves along normal -y-axis, rotates on x-axis
+                if(shift)
+                    camera.rotateZ(THREE.Math.degToRad(speed * 5));
+                else
+                    camera.position.x -= speed;
+                break;
+            case 87:    // 'w' moves along normal +z-axis, rotates on +y-axis
+                if(shift)
+                    camera.rotateX(THREE.Math.degToRad(speed * 5));
+                else
+                    camera.position.y += speed;
+                break;
+            case 83:    // 's' moves along normal -z-axis, rotates on -y-axis
+                if(shift)
+                    camera.rotateX(THREE.Math.degToRad(-speed * 5));
+                else
+                    camera.position.y -= speed;
+                break;
+        }
+    }, false);
+
+    document.addEventListener('keyup', function(event){
+        switch(event.which) {
+            case 16:
+                shift = !shift;
                 break;
         }
     }, false);
