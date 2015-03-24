@@ -2,8 +2,9 @@
  * Created by Ryan on 3/24/2015.
  */
 
-var Car = function (Ndiv) {
+var Car = function () {
     var geometry = new THREE.BufferGeometry();
+    var Ndiv = 40;
 
     var vertexArr = new Float32Array(3 * (Ndiv + 1));
     var angle = 0;

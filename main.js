@@ -15,16 +15,14 @@ require([], function(){
     // setup a scene and camera
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
-
-    camera.position.x = 20;
-    camera.position.y = 20;
-    camera.position.z = 20;
+    camera.position.set(15, 10, 15);
+    camera.lookAt(scene.position);
 
     // declare the rendering loop
     var onRenderFcts= [];
 
     // handle window resize events
-    var winResize	= new THREEx.WindowResize(renderer, camera)
+    var winResize	= new THREEx.WindowResize(renderer, camera);
 
     //////////////////////////////////////////////////////////////////////////////////
     //		default 3 points lightning					//
@@ -35,44 +33,44 @@ require([], function(){
     scene.add( ambientLight);
     var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
     aboveLight.position.set(0, 5, 1);
-    scene.add( aboveLight )
-    var backLight	= new THREE.DirectionalLight('white', 0.75)
+    scene.add( aboveLight );
+    var backLight	= new THREE.DirectionalLight('white', 0.75);
     backLight.position.set(0, 10, 0);
-    scene.add( backLight )
+    scene.add( backLight );
 
     //////////////////////////////////////////////////////////////////////////////////
     //		add an object and make it move					//
     //////////////////////////////////////////////////////////////////////////////////
-
-    var car_cf = new THREE.Matrix4();
-    car_cf.makeTranslation(3, 0, 3);
 
     var tran = new THREE.Vector3();
     var quat = new THREE.Quaternion();
     var rot = new THREE.Quaternion();
     var vscale = new THREE.Vector3();
 
+    var car_cf = new THREE.Matrix4();
+    car_cf.makeTranslation(3, 0, 3);
     // car_cf.multiply(new THREE.Matrix4().makeRotationZ(THREE.Math.degToRad(delta * 72)));
     car_cf.decompose(tran, quat, vscale);
 
     // add car
-    var car = new Car(60);
+    var car = new Car();
     var carMat = new THREE.MeshPhongMaterial();
     var carMesh = new THREE.Mesh(car, carMat);
+    // set car to car_cf
     carMesh.position.copy(tran);
     scene.add(carMesh);
-
-
 
     // add cylinder (actually cone)
     var cone = new THREE.CylinderGeometry(0, 0.5, 2);
     var coneMat = new THREE.MeshPhongMaterial();
     var coneMesh = new THREE.Mesh(cone, coneMat);
+    coneMesh.position.set(0, 1.5, 0);
     scene.add(coneMesh);
 
-    geometry	= new THREE.BoxGeometry( 1, 1, 1);
-    material	= new THREE.MeshPhongMaterial();
-    mesh	= new THREE.Mesh( geometry, material );
+    var geometry	= new THREE.BoxGeometry( 1, 1, 1);
+    var material	= new THREE.MeshPhongMaterial();
+    var mesh	= new THREE.Mesh( geometry, material );
+    mesh.position.set(0, 3, 0);
     scene.add( mesh );
 
     var groundPlane = new THREE.PlaneBufferGeometry(20, 20, 4, 4);
@@ -85,41 +83,41 @@ require([], function(){
         mesh.rotateX(0.5 * delta);
         mesh.rotateY(2.0 * delta);
         coneMesh.rotateZ(0.5 * delta);
-    })
+    });
 
     //////////////////////////////////////////////////////////////////////////////////
     //		Camera Controls							//
     //////////////////////////////////////////////////////////////////////////////////
-    var mouse	= {x : 0, y : 0}
+    var mouse	= {x : 0, y : 0};
     document.addEventListener('mousemove', function(event){
-        mouse.x	= (event.clientX / window.innerWidth ) - 0.5
-        mouse.y	= (event.clientY / window.innerHeight) - 0.5
-    }, false)
+        mouse.x	= (event.clientX / window.innerWidth ) - 0.5;
+        mouse.y	= (event.clientY / window.innerHeight) - 0.5;
+    }, false);
+
     onRenderFcts.push(function(delta, now){
         //camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
         //camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
         //camera.rotate().x = 5;
-        camera.lookAt( scene.position )
-    })
+    });
 
     //////////////////////////////////////////////////////////////////////////////////
     //		render the scene						//
     //////////////////////////////////////////////////////////////////////////////////
     onRenderFcts.push(function(){
         renderer.render( scene, camera );
-    })
+    });
 
     //////////////////////////////////////////////////////////////////////////////////
     //		Rendering Loop runner						//
     //////////////////////////////////////////////////////////////////////////////////
-    var lastTimeMsec= null
+    var lastTimeMsec= null;
     requestAnimationFrame(function animate(nowMsec){
         // keep looping
         requestAnimationFrame( animate );
         // measure time
-        lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
-        var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
-        lastTimeMsec	= nowMsec
+        lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
+        var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec);
+        lastTimeMsec	= nowMsec;
         // call each update function
         onRenderFcts.forEach(function(onRenderFct){
             onRenderFct(deltaMsec/1000, nowMsec/1000)
