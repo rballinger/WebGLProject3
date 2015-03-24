@@ -79,7 +79,12 @@ require([], function(){
     //ground.rotateX(THREE.Math.degToRad(-90));
     scene.add (ground);
 
-    // corrects view so coord system is oriented 'normal' since camera won't move
+    // Next 2 lines are so objects in scene can be placed and moved intuitively
+    // but camera will still have coordinate system of:
+    //               +y |                                 +z |
+    //                  |___ +x      instead of objects:     |____ +y
+    //              +z /                                 +x /
+    //
     scene.rotateX(THREE.Math.degToRad(-90));
     scene.rotateZ(THREE.Math.degToRad(-90));
 
@@ -96,6 +101,15 @@ require([], function(){
     document.addEventListener('mousemove', function(event){
         mouse.x	= (event.clientX / window.innerWidth ) - 0.5;
         mouse.y	= (event.clientY / window.innerHeight) - 0.5;
+    }, false);
+
+    var speed = 0.5;
+    document.addEventListener('keydown', function(event){
+        switch(event.which){
+            case 88:    // 'x' moves along +x-axis, camera moves different tho
+                camera.position.z +=  speed;
+                break;
+        }
     }, false);
 
     onRenderFcts.push(function(delta, now){
