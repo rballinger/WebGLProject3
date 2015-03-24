@@ -44,7 +44,7 @@ require([], function(){
     //////////////////////////////////////////////////////////////////////////////////
 
     var car_cf = new THREE.Matrix4();
-    car_cf.makeTranslation(3, 0, 0);
+    car_cf.makeTranslation(3, 0, 3);
 
     var tran = new THREE.Vector3();
     var quat = new THREE.Quaternion();
