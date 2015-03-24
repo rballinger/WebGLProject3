@@ -15,6 +15,9 @@ require([], function(){
     // setup a scene and camera
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
+
+    camera.position.x = 20;
+    camera.position.y = 20;
     camera.position.z = 20;
 
     // declare the rendering loop
@@ -29,8 +32,9 @@ require([], function(){
 
     var ambientLight= new THREE.AmbientLight( 0x020202 )
     scene.add( ambientLight)
-    var frontLight	= new THREE.DirectionalLight('white', 1)
-    frontLight.position.set(0.5, 0.5, 2)
+    var frontLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
+    frontLight.position.set(0, 5, 1);
+    //frontLight.rotateY(THREE.Math.degToRad(-90));
     scene.add( frontLight )
     var backLight	= new THREE.DirectionalLight('white', 0.75)
     backLight.position.set(-0.5, -0.5, -2)
@@ -40,16 +44,28 @@ require([], function(){
     //		add an object and make it move					//
     //////////////////////////////////////////////////////////////////////////////////
 
+    // add car
+    var car = new Car(60);
+    var carMat = new THREE.MeshPhongMaterial();
+    var carMesh = new THREE.Mesh(car, carMat);
+    scene.add(carMesh);
+
     // add cylinder (actually cone)
     var cone = new THREE.CylinderGeometry(0, 0.5, 2);
     var coneMat = new THREE.MeshPhongMaterial();
     var coneMesh = new THREE.Mesh(cone, coneMat);
     scene.add(coneMesh);
 
-    geometry	= new THREE.CubeGeometry( 1, 1, 1);
+    geometry	= new THREE.BoxGeometry( 1, 1, 1);
     material	= new THREE.MeshPhongMaterial();
     mesh	= new THREE.Mesh( geometry, material );
     scene.add( mesh );
+
+    var groundPlane = new THREE.PlaneBufferGeometry(20, 20, 4, 4);
+    var groundMat = new THREE.MeshPhongMaterial({color:0x1d6438, ambient:0x1d6438});
+    var ground = new THREE.Mesh (groundPlane, groundMat);
+    ground.rotateX(THREE.Math.degToRad(-90));
+    scene.add (ground);
 
     onRenderFcts.push(function(delta, now){
         mesh.rotateX(0.5 * delta);
@@ -66,8 +82,9 @@ require([], function(){
         mouse.y	= (event.clientY / window.innerHeight) - 0.5
     }, false)
     onRenderFcts.push(function(delta, now){
-        camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
-        camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
+        //camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
+        //camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
+        //camera.rotate().x = 5;
         camera.lookAt( scene.position )
     })
 
