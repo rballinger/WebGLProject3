@@ -7,7 +7,7 @@ var Car = function () {
     var CHASSIS_WIDTH = 4;
     var CHASSIS_HEIGHT = 1.5;
     var OFF_GROUND = 0.625;
-    var SUBDIV = 20;
+    var SUBDIV = 40;
     var ROOF = 1;
     var SECTION_LEN = CHASSIS_LEN / SUBDIV;
     var vertexArrSize = 3 * SUBDIV * 2 * 2;
@@ -33,15 +33,16 @@ var Car = function () {
     n1.y = 0;
     n1.z = 1;
     for(var i = 0; i < topPoints; i=i+2){
-        if(i >= roofStart && i < roofStart + 4){
-            sectionHeight = CHASSIS_HEIGHT + OFF_GROUND + (i - roofStart) * 0.5;
-            n1.y = -0.707;
-            n1.z = 0.707;
-        }else if(i >= roofStart + 4 && i < roofEnd){
+        if(i > roofStart && i < roofStart + 6){
+            sectionHeight = CHASSIS_HEIGHT + OFF_GROUND + (ROOF * (i - roofStart) * 0.17);
+            n1.y = -SECTION_LEN;
+            n1.z = 0.17;
+            n1.normalize();
+        }else if(i >= roofStart + 6 && i < roofEnd){
             sectionHeight = CHASSIS_HEIGHT + OFF_GROUND + ROOF;
             n1.y = 0;
             n1.z = 1;
-        }else{
+        }else {
             sectionHeight = CHASSIS_HEIGHT + OFF_GROUND;
             n1.y = 0;
             n1.z = 1;
@@ -79,17 +80,39 @@ var Car = function () {
     }
 
     // bottom chassis
-    n1.x = 0;
+    n1.x = -1;
     n1.y = 0;
-    n1.z = -1;
+    n1.z = 0;
     n1.normalize();
+    var tireSpace = 0;
+    var check = 0;
     for(var i = topPoints; i < topPoints * 2; i=i+2){
+        check = i - topPoints;
+        if(check >= roofStart * 2 && check < roofEnd + 4){
+            console.log(roofEnd);
+            console.log(check);
+            tireSpace = OFF_GROUND;
+        }else if(check == 6 || check == 7 || check == 64 || check == 65){
+            tireSpace = OFF_GROUND + 0.5;
+        }else if(check == 8 || check == 9 || check == 66 || check == 67) {
+            tireSpace = OFF_GROUND + 0.75;
+        }else if(check == 10 || check == 11 || check == 68 || check == 69){
+            tireSpace = OFF_GROUND + 0.875;
+        }else if(check == 12 || check == 13 || check == 70 || check == 71){
+            tireSpace = OFF_GROUND + 0.875;
+        }else if(check == 14 || check == 15 || check == 72 || check == 73){
+            tireSpace = OFF_GROUND + 0.75;
+        }else if(check == 16 || check == 17 || check == 74 || check == 75){
+            tireSpace = OFF_GROUND + 0.5;
+        }else{
+            tireSpace = OFF_GROUND;
+        }
         vertexArr[3 * i] = 0;
         vertexArr[3 * i + 1] = (i - topPoints) * SECTION_LEN / 2;
-        vertexArr[3 * i + 2] = OFF_GROUND;
+        vertexArr[3 * i + 2] = tireSpace;
         vertexArr[3 * (i + 1)] = CHASSIS_WIDTH;
         vertexArr[3 * (i + 1) + 1] = (i - topPoints) * SECTION_LEN / 2;
-        vertexArr[3 * (i + 1) + 2] = OFF_GROUND;
+        vertexArr[3 * (i + 1) + 2] = tireSpace;
         normalArr[3* i] = n1.x;
         normalArr[3 * i + 1] = n1.y;
         normalArr[3 * i + 2] = n1.z;
