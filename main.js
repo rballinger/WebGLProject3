@@ -108,7 +108,7 @@ require([], function(){
     document.addEventListener('keydown', function(event){
         switch(event.which){
             case 16:    // hold shift to rotate objects
-                shift = !shift;
+                shift = true;
                 break;
             case 65:    // 'a' moves along normal +x-axis, rotates on +z-axis
                 if(shift)
@@ -152,7 +152,7 @@ require([], function(){
     document.addEventListener('keyup', function(event){
         switch(event.which) {
             case 16:
-                shift = !shift;
+                shift = false;
                 break;
         }
     }, false);
