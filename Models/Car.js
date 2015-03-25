@@ -15,7 +15,7 @@ var Car = function () {
     var geometry = new THREE.BufferGeometry();
     var vertexArr = new Float32Array(vertexArrSize);
     var normalArr = new Float32Array(vertexArrSize);
-    var indexArr = new Uint32Array(vertexArrSize - 12);  // (vertexArrSize / 3) * 3 - 12
+    var indexArr = new Uint32Array((vertexArrSize - 12) * 2 + 24);  // (vertexArrSize / 3) * 3 - 12
 
     // top chassis start
     var topPoints = SUBDIV * 2;
@@ -92,6 +92,68 @@ var Car = function () {
         indexArr[currIndex] = i + 2;
         currIndex++;
     }
+
+    // sides
+    // first long side
+    for(var i = 0; i < topPoints - 2; i=i+2){
+        // first triangle of quad
+        indexArr[currIndex] = i + topPoints + 2;
+        currIndex++;
+        indexArr[currIndex] = i + topPoints;
+        currIndex++;
+        indexArr[currIndex] = i;
+        currIndex++
+        // second triangle of quad
+        indexArr[currIndex] = i + 2;
+        currIndex++;
+        indexArr[currIndex] = i + topPoints + 2;
+        currIndex++;
+        indexArr[currIndex] = i;
+        currIndex++;
+    }
+    // second long side
+    for(var i = 1; i < topPoints - 2; i=i+2){
+        // first triangle of quad
+        indexArr[currIndex] = i;
+        currIndex++;
+        indexArr[currIndex] = i + topPoints;
+        currIndex++;
+        indexArr[currIndex] = i + topPoints + 2;
+        currIndex++
+        // second triangle of quad
+        indexArr[currIndex] = i;
+        currIndex++;
+        indexArr[currIndex] = i + topPoints + 2;
+        currIndex++;
+        indexArr[currIndex] = i + 2;
+        currIndex++;
+    }
+    // first short side
+    indexArr[currIndex] = 0;
+    currIndex++;
+    indexArr[currIndex] = topPoints;
+    currIndex++;
+    indexArr[currIndex] = topPoints + 1;
+    currIndex++;
+    indexArr[currIndex] = 0;
+    currIndex++;
+    indexArr[currIndex] = topPoints + 1;
+    currIndex++;
+    indexArr[currIndex] = 1;
+    currIndex++;
+    // second short side
+    indexArr[currIndex] = topPoints - 1;
+    currIndex++;
+    indexArr[currIndex] = topPoints * 2 - 2;
+    currIndex++;
+    indexArr[currIndex] = topPoints - 2;
+    currIndex++;
+    indexArr[currIndex] = topPoints - 1;
+    currIndex++;
+    indexArr[currIndex] = topPoints * 2 - 1;
+    currIndex++;
+    indexArr[currIndex] = topPoints * 2 - 2;
+    currIndex++;
 
     geometry.addAttribute('position', new THREE.BufferAttribute(vertexArr, 3));
     geometry.addAttribute('normal', new THREE.BufferAttribute(normalArr, 3));
