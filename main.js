@@ -118,9 +118,7 @@ require([], function(){
 	scene.add(vaneBase);
 
 	var tire = new Wheel();
-
-    tire.translateZ(10);
-	tire.translateY(15);
+    tire.position.set(35, 10, 40);
 	tire.rotateX(Math.PI/2);
 	scene.add(tire);
 

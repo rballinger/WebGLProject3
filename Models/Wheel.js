@@ -16,7 +16,11 @@ Wheel = function() {
     var innerWall = new THREE.Mesh (innerWallGeo, innerWallMat);
 
     var treadGeo = new THREE.CylinderGeometry(3, 3, 2 ,32, 18, true);
-    var treadMat = new THREE.MeshPhongMaterial({color: 0x848484});
+    var tireTex = THREE.ImageUtils.loadTexture("textures/tire_tread.jpg");
+    tireTex.repeat.set(10,1);
+    tireTex.wrapS = THREE.RepeatWrapping;
+    tireTex.wrapT = THREE.RepeatWrapping;
+    var treadMat = new THREE.MeshPhongMaterial({color: 0x848484,  map:tireTex});
     var tread = new THREE.Mesh (treadGeo, treadMat);
 
     var hubGeo = new THREE.CylinderGeometry(2, 2, 2.1 ,32, 18, false);
