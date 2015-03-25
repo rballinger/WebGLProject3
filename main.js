@@ -35,13 +35,13 @@ require([], function(){
     //////////////////////////////////////////////////////////////////////////////////
 
     var ambientLight= new THREE.AmbientLight( 0x020202 );
-    ambientLight.position.set(0, 0, 20);
+    ambientLight.position.set(0, 20, 0);
     scene.add( ambientLight);
     var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
-    aboveLight.position.set(0, 0, 5);
+    aboveLight.position.set(0, 5, 0);
     scene.add( aboveLight );
     var backLight	= new THREE.DirectionalLight('white', 0.75);
-    backLight.position.set(2, 2, 10);
+    backLight.position.set(2, 10, 2);
     scene.add( backLight );
 
     //////////////////////////////////////////////////////////////////////////////////
