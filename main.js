@@ -37,12 +37,18 @@ require([], function(){
     var ambientLight= new THREE.AmbientLight( 0x020202 );
     ambientLight.position.set(0, 20, 0);
     scene.add( ambientLight);
-    var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
+    var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
     aboveLight.position.set(0, 5, 0);
     scene.add( aboveLight );
-    var backLight	= new THREE.DirectionalLight('white', 0.75);
-    backLight.position.set(2, 10, 2);
+    var backLight	= new THREE.DirectionalLight('white', 1.0);
+    backLight.position.set(0, 10, 20);
     scene.add( backLight );
+    var backLight2	= new THREE.DirectionalLight('white', 1.0);
+    backLight2.position.set(20, 10, 20);
+    scene.add( backLight2 );
+    var backLight3	= new THREE.DirectionalLight('white', 1.0);
+    backLight3.position.set(20, 10, 0);
+    scene.add( backLight3 );
 
     //////////////////////////////////////////////////////////////////////////////////
     //		add an object and make it move					//
@@ -68,17 +74,17 @@ require([], function(){
     scene.add(carMesh);
 
     // add cylinder (actually cone)
-    var cone = new THREE.CylinderGeometry(0, 0.5, 2);
-    var coneMat = new THREE.MeshPhongMaterial();
-    var coneMesh = new THREE.Mesh(cone, coneMat);
-    coneMesh.position.set(0, 0, 1.5);
-    scene.add(coneMesh);
+    //var cone = new THREE.CylinderGeometry(0, 0.5, 2);
+    //var coneMat = new THREE.MeshPhongMaterial();
+    //var coneMesh = new THREE.Mesh(cone, coneMat);
+    //coneMesh.position.set(0, 0, 1.5);
+    //scene.add(coneMesh);
 
-    var geometry = new THREE.BoxGeometry( 1, 1, 1);
-    var material = new THREE.MeshPhongMaterial();
-    var mesh = new THREE.Mesh( geometry, material );
-    mesh.position.set(0, 0, 3);
-    scene.add( mesh );
+    //var geometry = new THREE.BoxGeometry( 1, 1, 1);
+    //var material = new THREE.MeshPhongMaterial();
+    //var mesh = new THREE.Mesh( geometry, material );
+    //mesh.position.set(0, 0, 3);
+    //scene.add( mesh );
 
     /*var groundPlane = new THREE.PlaneBufferGeometry(20, 20, 4, 4);
     var groundMat = new THREE.MeshPhongMaterial({color:0x1d6438, ambient:0x1d6438});
@@ -87,12 +93,17 @@ require([], function(){
     scene.add (ground);*/
 
     // ground 
-    var ground = new Ground();
-    //scene.add(ground);
-
-	// add color to ground
-	var groundMat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438});
-	scene.add(new THREE.Mesh(ground, groundMat));
+    var groundPlane = new THREE.PlaneBufferGeometry(100, 100, 4, 4);
+    /* texture won't work on our Ground for some reason */
+    //var groundPlane = new Ground();
+    var asphaltTex = THREE.ImageUtils.loadTexture("textures/asphalt.jpg");
+    asphaltTex.repeat.set(20, 20);
+    asphaltTex.wrapS = THREE.MirroredRepeatWrapping;
+    asphaltTex.wrapT = THREE.RepeatWrapping;
+	var groundMat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438, map:asphaltTex});
+	var ground = new THREE.Mesh(groundPlane, groundMat);
+    ground.rotateX(THREE.Math.degToRad(-90));
+    scene.add(ground);
 
 	// street light with curb
 	var streetLight = new StreetLight();
@@ -114,9 +125,10 @@ require([], function(){
 	scene.add(tire);
 
     onRenderFcts.push(function(delta, now){
-        mesh.rotateX(0.5 * delta);
-        mesh.rotateY(2.0 * delta);
-        coneMesh.rotateZ(0.5 * delta);
+        // old code
+        //mesh.rotateX(0.5 * delta);
+        //mesh.rotateY(2.0 * delta);
+        //coneMesh.rotateZ(0.5 * delta);
     });
 
     //////////////////////////////////////////////////////////////////////////////////
