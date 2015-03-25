@@ -99,13 +99,6 @@ require([], function(){
 	var vaneBase = new WeatherVaneBase();
 	scene.add(vaneBase);
 
-	var tire = new Wheel();
-
-    tire.translateZ(100);
-	tire.translateY(15);
-	tire.rotateX(Math.PI/2);
-	scene.add(tire);
-
     // Next 2 lines are so objects in scene can be placed and moved intuitively
     // but camera will still have coordinate system of:
     //               +y |                                 +z |

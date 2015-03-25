@@ -37,5 +37,4 @@
         Holding <b>SHIFT</b> + <i>key</i> rotates objects
     </div>
     <script src="main.js"></script>
-<div id="graphicsbox"></div>
 </body>
