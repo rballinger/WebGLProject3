@@ -48,7 +48,7 @@ require([], function(){
     scene.add( backLight2 );
     var backLight3	= new THREE.DirectionalLight('white', 1.0);
     backLight3.position.set(20, 10, 0);
-    scene.add( backLight3 );
+    //scene.add( backLight3 );
 
     //////////////////////////////////////////////////////////////////////////////////
     //		add an object and make it move					//
@@ -60,8 +60,8 @@ require([], function(){
     var vscale = new THREE.Vector3();
 
     var car_cf = new THREE.Matrix4();
-    car_cf.makeTranslation(1, 1, 0);
-    // car_cf.multiply(new THREE.Matrix4().makeRotationZ(THREE.Math.degToRad(delta * 72)));
+    car_cf.makeTranslation(40, 10, 40);
+    car_cf.multiply(new THREE.Matrix4().makeRotationX(THREE.Math.degToRad(-90)));
     car_cf.decompose(tran, quat, vscale);
 
     // add car

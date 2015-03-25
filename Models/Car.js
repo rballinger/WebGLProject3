@@ -8,7 +8,7 @@ var Car = function () {
     var CHASSIS_HEIGHT = 1.5;
     var OFF_GROUND = 0.625;
     var SUBDIV = 20;
-    var ROOF = 2;
+    var ROOF = 1;
     var SECTION_LEN = CHASSIS_LEN / SUBDIV;
     var vertexArrSize = 3 * SUBDIV * 2 * 2;
 
@@ -20,11 +20,32 @@ var Car = function () {
     // top chassis start
     var topPoints = SUBDIV * 2;
     var sectionHeight = CHASSIS_HEIGHT + OFF_GROUND;
+    var roofStart = topPoints * 0.3;
+    if(roofStart % 2 != 0){
+        roofStart += 1;
+    }
+    var roofEnd = topPoints * 0.75;
+    if(roofEnd % 2 != 0){
+        roofEnd += 1;
+    }
     var n1 = new THREE.Vector3();
     n1.x = 0;
     n1.y = 0;
     n1.z = 1;
     for(var i = 0; i < topPoints; i=i+2){
+        if(i >= roofStart && i < roofStart + 4){
+            sectionHeight = CHASSIS_HEIGHT + OFF_GROUND + (i - roofStart) * 0.5;
+            n1.y = -0.707;
+            n1.z = 0.707;
+        }else if(i >= roofStart + 4 && i < roofEnd){
+            sectionHeight = CHASSIS_HEIGHT + OFF_GROUND + ROOF;
+            n1.y = 0;
+            n1.z = 1;
+        }else{
+            sectionHeight = CHASSIS_HEIGHT + OFF_GROUND;
+            n1.y = 0;
+            n1.z = 1;
+        }
         vertexArr[3* i] = 0;
         vertexArr[3 * i + 1] = i * SECTION_LEN / 2;
         vertexArr[3 * i + 2] = sectionHeight;
@@ -60,7 +81,8 @@ var Car = function () {
     // bottom chassis
     n1.x = 0;
     n1.y = 0;
-    n1.z = 1;
+    n1.z = -1;
+    n1.normalize();
     for(var i = topPoints; i < topPoints * 2; i=i+2){
         vertexArr[3 * i] = 0;
         vertexArr[3 * i + 1] = (i - topPoints) * SECTION_LEN / 2;
