@@ -105,11 +105,13 @@ require([], function(){
 
     var speed = 0.5;
     var shift = false;  // if shift is being held or not
+    var selected_obj = carMesh;
     document.addEventListener('keydown', function(event){
         switch(event.which){
             case 16:    // hold shift to rotate objects
                 shift = true;
                 break;
+            /**** for camera only ******/
             case 65:    // 'a' moves along normal +x-axis, rotates on +z-axis
                 if(shift)
                     camera.rotateY(THREE.Math.degToRad(speed * 5));
@@ -141,10 +143,51 @@ require([], function(){
                     camera.position.y += speed;
                 break;
             case 83:    // 's' moves along normal -z-axis, rotates on -y-axis
+                    if(shift)
+                        camera.rotateX(THREE.Math.degToRad(-speed * 5));
+                    else
+                        camera.position.y -= speed;
+                break;
+            /**** to select objects ******/
+            case 84:    // 't' to select car
+                selected_obj = carMesh;
+                break;
+            /***** for moving/rotating objects *****/
+            case 75:    // 'k' moves along normal +x-axis, rotates on +x-axis
                 if(shift)
-                    camera.rotateX(THREE.Math.degToRad(-speed * 5));
+                    selected_obj.rotateX(THREE.Math.degToRad(speed * 5));
                 else
-                    camera.position.y -= speed;
+                    selected_obj.position.x += speed;
+                break;
+            case 186:    // ';' moves along normal +x-axis, rotates on -x-axis
+                if(shift)
+                    selected_obj.rotateX(THREE.Math.degToRad(-speed * 5));
+                else
+                    selected_obj.position.x -= speed;
+                break;
+            case 80:    // 'p' moves along normal +y-axis, rotates on +y-axis
+                if(shift)
+                    selected_obj.rotateY(THREE.Math.degToRad(speed * 5));
+                else
+                    selected_obj.position.y += speed;
+                break;
+            case 73:    // 'i' moves along normal -y-axis, rotates on -y-axis
+                if(shift)
+                    selected_obj.rotateY(THREE.Math.degToRad(-speed * 5));
+                else
+                    selected_obj.position.y -= speed;
+                break;
+            case 79:    // 'o' moves along normal +z-axis, rotates on +z-axis
+                if(shift)
+                    selected_obj.rotateZ(THREE.Math.degToRad(speed * 5));
+                else
+                    selected_obj.position.z += speed;
+                break;
+            case 76:    // 'l' moves along normal -z-axis, rotates on -z-axis
+                if(shift)
+                    selected_obj.rotateZ(THREE.Math.degToRad(-speed * 5));
+                else
+                    selected_obj.position.z -= speed;
                 break;
         }
     }, false);
