@@ -2,6 +2,12 @@
  * Created by Ryan on 3/23/2015.
  */
 
+/* Note: when viewed in browser to the user the coordinate system is:
+ *                   +y |
+ *                      |___ +x
+ *                  +z /
+ */
+
 require([], function(){
     // detect WebGL
     if( !Detector.webgl ){
@@ -15,7 +21,7 @@ require([], function(){
     // setup a scene and camera
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
-    camera.position.set(50, 50, 15);
+    camera.position.set(50, 15, 50);
     camera.lookAt(scene.position);
 
     // declare the rendering loop
@@ -139,37 +145,37 @@ require([], function(){
                 shift = true;
                 break;
             /**** for moving/rotating selected object ******/
-            case 65:    // 'a' moves along normal +x-axis, rotates on +z-axis
+            case 65:    // 'a' moves along normal +z-axis, rotates on +y-axis
                 if(shift)
                     selected_obj.rotateY(THREE.Math.degToRad(speed * 5));
                 else
                     selected_obj.position.z += speed;
                 break;
-            case 68:    // 'd' moves along normal +x-axis, rotates on -z-axis
+            case 68:    // 'd' moves along normal -z-axis, rotates on -y-axis
                 if(shift)
                     selected_obj.rotateY(THREE.Math.degToRad(-speed * 5));
                 else
                     selected_obj.position.z -= speed;
                 break;
-            case 69:    // 'e' moves along normal +y-axis, rotates on -x-axis
+            case 69:    // 'e' moves along normal +x-axis, rotates on -z-axis
                 if(shift)
                     selected_obj.rotateZ(THREE.Math.degToRad(-speed * 5));
                 else
                     selected_obj.position.x += speed;
                 break;
-            case 81:    // 'q' moves along normal -y-axis, rotates on x-axis
+            case 81:    // 'q' moves along normal -x-axis, rotates on +z-axis
                 if(shift)
                     selected_obj.rotateZ(THREE.Math.degToRad(speed * 5));
                 else
                     selected_obj.position.x -= speed;
                 break;
-            case 87:    // 'w' moves along normal +z-axis, rotates on +y-axis
+            case 87:    // 'w' moves along normal +y-axis, rotates on +x-axis
                 if(shift)
                     selected_obj.rotateX(THREE.Math.degToRad(speed * 5));
                 else
                     selected_obj.position.y += speed;
                 break;
-            case 83:    // 's' moves along normal -z-axis, rotates on -y-axis
+            case 83:    // 's' moves along normal -y-axis, rotates on -x-axis
                 if(shift)
                     selected_obj.rotateX(THREE.Math.degToRad(-speed * 5));
                 else
