@@ -25,7 +25,7 @@ require([], function(){
     camera.lookAt(scene.position);
 
 	// determines if call-back will render new scene
-	var run = true;
+	var run = false;
 
 	// GLOBALS USED FOR CALL BACK
 	// big ufo
@@ -156,7 +156,6 @@ require([], function(){
 	var vaneBase = new WeatherVaneBase();
 	scene.add(vaneBase);
 
-<<<<<<< HEAD
     onRenderFcts.push(function(delta, now){
 		if(run){
 		    // old code
@@ -238,12 +237,16 @@ require([], function(){
 			minUfoTwoold_Z = minUfoTwonew_Z;
 
 			/// END UFO MOTION ///
+
+
+
+
+
 		}
 
     });
 
-=======
->>>>>>> cecdc370cc42acc3bde6719a6368212b380bc2d0
+
     //////////////////////////////////////////////////////////////////////////////////
     //		Camera Controls							//
     //////////////////////////////////////////////////////////////////////////////////

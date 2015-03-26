@@ -25,7 +25,7 @@ require([], function(){
     camera.lookAt(scene.position);
 
 	// determines if call-back will render new scene
-	var run = true;
+	var run = false;
 
 	// GLOBALS USED FOR CALL BACK
 	// big ufo
@@ -150,7 +150,7 @@ require([], function(){
 	// position ufos
     minUfoOne.position.set (-58, 0, 0);
     minUfoTwo.position.set (0, 0, -46);
-    //ufo.position.set (-46, 45, 0);
+    ufo.position.set (-46, 45, 0);
 
 	// Weather vane base
 	var vaneBase = new WeatherVaneBase();
