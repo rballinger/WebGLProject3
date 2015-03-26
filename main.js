@@ -130,6 +130,9 @@ require([], function(){
             case 84:    // 't' to select car
                 selected_obj = car;
                 break;
+            case 85:    // 'u' to select ufo
+                selected_obj = ufo;
+                break;
             case 67:    // 'c' to select camera
                 selected_obj = camera;
                 break;
