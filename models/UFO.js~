@@ -49,8 +49,8 @@ UFO = function() {
     group.add (mid);
     group.add (sphere);
 
-    //group.translateX (-38);
-    //group.translateY (18);
+    group.translateX (-38);
+    group.translateY (18);
 //group.translateY (18);
     return group;
 }

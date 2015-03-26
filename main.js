@@ -24,6 +24,29 @@ require([], function(){
     camera.position.set(75, 50, 75);// 150 100 125
     camera.lookAt(scene.position);
 
+	// determines if call-back will render new scene
+	var run = true;
+
+	// GLOBALS USED FOR CALL BACK
+	// big ufo
+	var old_X = 0.0;
+	var old_Z = 0.0;
+	var ufoSpeed = 50.0;
+	var ellipse_angle_change = 1.0;
+	var ellipse_angle = 0.0;
+	// small ufo one
+	var minUfoOneold_X = 0.0;
+	var minUfoOneold_Y = 0.0;
+	var minUfoOneufoSpeed = 50.0;
+	var minUfoOneellipse_angle_change = 1.0;
+	var minUfoOneellipse_angle = 0.0;
+	// small ufo two
+	var minUfoTwoold_Y = 0.0;
+	var minUfoTwoold_Z = 0.0;
+	var minUfoTwoufoSpeed = 50.0;
+	var minUfoTwoellipse_angle_change = 1.0;
+	var minUfoTwoellipse_angle = 0.0;
+
     // declare the rendering loop
     var onRenderFcts= [];
 
@@ -102,17 +125,117 @@ require([], function(){
 
 	// UFO
 	var ufo = new UFO();
+	var minUfoOne = new UFO();
+	var minUfoTwo = new UFO();
+	minUfoOne.scale.set(0.3, 0.3, 0.3);
+	minUfoTwo.scale.set(0.3, 0.3, 0.3);
+
+	// ufo coordinate frames
+    var ufo_cf = new THREE.Matrix4();
+    var minUfoOne_cf = new THREE.Matrix4();
+    var minUfoTwo_cf = new THREE.Matrix4();
+	minUfoOne_cf.makeTranslation(-8, 0, 0);
+	minUfoTwo_cf.makeTranslation(-8, 0, 0);
+
+	// add mini ufos to large ufo group
+	ufo.add(minUfoOne);
+	ufo.add(minUfoTwo);
 	scene.add(ufo);
+
+	ufo_cf.makeTranslation(-46, 45, 0);
+
+	// position ufos
+    minUfoOne.position.set (-58, 0, 0);
+    minUfoTwo.position.set (0, 0, -46);
+    //ufo.position.set (-46, 45, 0);
 
 	// Weather vane base
 	var vaneBase = new WeatherVaneBase();
 	scene.add(vaneBase);
 
     onRenderFcts.push(function(delta, now){
-        // old code
-        //mesh.rotateX(0.5 * delta);
-        //mesh.rotateY(2.0 * delta);
-        //coneMesh.rotateZ(0.5 * delta);
+		if(run){
+		    // old code
+		    //mesh.rotateX(0.5 * delta);
+		    //mesh.rotateY(2.0 * delta);
+		    //coneMesh.rotateZ(0.5 * delta);
+
+			/// START UFO MOTION ///
+		    var ufo_tran = new THREE.Vector3();
+		    var ufo_quat = new THREE.Quaternion();
+		    var ufo_rot = new THREE.Quaternion();
+		    var ufo_vscale = new THREE.Vector3();
+			var majAxis = 140.0;
+			var minAxis = 100.0;
+
+			var new_X = minAxis*Math.cos(ellipse_angle);
+			var new_Z = majAxis*Math.sin(ellipse_angle);
+
+		    if(ellipse_angle == 0.0){
+		    	new_X = new_Z = 0.0;
+		    }
+
+       		ellipse_angle += ellipse_angle_change*delta;
+
+		    ufo_cf.multiply(new THREE.Matrix4().makeTranslation(new_X - old_X, 0.0, new_Z - old_Z));
+		    ufo_cf.decompose (ufo_tran, ufo_quat, ufo_vscale);
+		    ufo.position.copy(ufo_tran);
+		    ufo.quaternion.copy(ufo_quat);
+
+			old_X = new_X;
+			old_Z = new_Z;
+
+			var minUfoOne_tran = new THREE.Vector3();
+		    var minUfoOne_quat = new THREE.Quaternion();
+		    var minUfoOne_rot = new THREE.Quaternion();
+		    var minUfoOne_vscale = new THREE.Vector3();
+			var minUfoOnemajAxis = 50.0;
+			var minUfoOneminAxis = 10.0;
+
+			var minUfoOnenew_X = minUfoOnemajAxis*Math.cos(minUfoOneellipse_angle);
+			var minUfoOnenew_Y = minUfoOneminAxis*Math.sin(minUfoOneellipse_angle);
+
+		    if(minUfoOneellipse_angle == 0.0){
+		    	minUfoOnenew_X = minUfoOnenew_Y = 0.0;
+		    }
+
+       		minUfoOneellipse_angle += minUfoOneellipse_angle_change*delta;
+
+		    minUfoOne_cf.multiply(new THREE.Matrix4().makeTranslation(minUfoOnenew_X - minUfoOneold_X, minUfoOnenew_Y - minUfoOneold_Y, 0.0));
+		    minUfoOne_cf.decompose (minUfoOne_tran, minUfoOne_quat, minUfoOne_vscale);
+		    minUfoOne.position.copy(minUfoOne_tran);
+		    minUfoOne.quaternion.copy(minUfoOne_quat);
+
+			minUfoOneold_X = minUfoOnenew_X;
+			minUfoOneold_Y = minUfoOnenew_Y;
+
+			var minUfoTwo_tran = new THREE.Vector3();
+		    var minUfoTwo_quat = new THREE.Quaternion();
+		    var minUfoTwo_rot = new THREE.Quaternion();
+		    var minUfoTwo_vscale = new THREE.Vector3();
+			var minUfoTwomajAxis = 10.0;
+			var minUfoTwominAxis = 50.0;
+
+			var minUfoTwonew_Y = minUfoTwomajAxis*Math.cos(minUfoTwoellipse_angle);
+			var minUfoTwonew_Z = minUfoTwominAxis*Math.sin(minUfoTwoellipse_angle);
+
+		    if(minUfoTwoellipse_angle == 0.0){
+		    	minUfoTwonew_Y = minUfoTwonew_Z = 0.0;
+		    }
+
+       		minUfoTwoellipse_angle += minUfoTwoellipse_angle_change*delta;
+
+		    minUfoTwo_cf.multiply(new THREE.Matrix4().makeTranslation(0.0, minUfoTwonew_Y - minUfoTwoold_Y, minUfoTwonew_Z - minUfoTwoold_Z));
+		    minUfoTwo_cf.decompose (minUfoTwo_tran, minUfoTwo_quat, minUfoTwo_vscale);
+		    minUfoTwo.position.copy(minUfoTwo_tran);
+		    minUfoTwo.quaternion.copy(minUfoTwo_quat);
+
+			minUfoTwoold_Y = minUfoTwonew_Y;
+			minUfoTwoold_Z = minUfoTwonew_Z;
+
+			/// END UFO MOTION ///
+		}
+
     });
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +260,12 @@ require([], function(){
             case 85:    // 'u' to select ufo
                 selected_obj = ufo;
                 break;
+            case 70:    // 'f' to select minUfo1
+                selected_obj = minUfoOne;
+                break;
+            case 79:    // 'o' to select minUfo2
+                selected_obj = minUfoTwo;
+                break;
             case 67:    // 'c' to select camera
                 selected_obj = camera;
                 break;
@@ -144,6 +273,10 @@ require([], function(){
             case 16:    // hold shift to rotate objects
                 shift = true;
                 break;
+			/**** STOP/START ANIMATION ******/
+            case 32:
+                run = !run;
+				break;
             /**** for moving/rotating selected object ******/
             case 65:    // 'a' moves along normal +z-axis, rotates on +y-axis
                 if(shift)
