@@ -3,9 +3,6 @@
  */
 
 var Car = function () {
-
-
-
     var CHASSIS_LEN = 10;
     var CHASSIS_WIDTH = 4;
     var CHASSIS_HEIGHT = 1.5;
@@ -199,7 +196,6 @@ var Car = function () {
     indexArr[currIndex] = topPoints * 2 - 1;
     currIndex++;
     indexArr[currIndex] = topPoints * 2 - 2;
-    currIndex++;
 
     geometry.addAttribute('position', new THREE.BufferAttribute(vertexArr, 3));
     geometry.addAttribute('normal', new THREE.BufferAttribute(normalArr, 3));
@@ -230,29 +226,21 @@ var Car = function () {
 
     // create headlights
     var geoHeadlight = new THREE.SphereGeometry(0.25, 20, 20);
-    var headlightMat = new THREE.MeshPhongMaterial({color:0xffff00});
+    var headlightMat = new THREE.MeshBasicMaterial({color:0xffff00});
     var headlightR = new THREE.Mesh (geoHeadlight, headlightMat);
     headlightR.position.set(0.5, 0, OFF_GROUND + CHASSIS_HEIGHT - 0.5);
     var headlightL = new THREE.Mesh (geoHeadlight, headlightMat);
     headlightL.position.set(CHASSIS_WIDTH - 0.5, 0, OFF_GROUND + CHASSIS_HEIGHT - 0.5);
 
-    // create actual headlights
-    var lightR	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
-    lightR.position.set(0, 0, 0);
-    //lightR.target = headlightR;
-    //lightR.rotateZ(THREE.Math.degToRad(-90));
-    var lightL	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
-    lightL.position.set(0, 0, 0);
-    //lightL.target = headlightL;
-    //lightL.rotateY(THREE.Math.degToRad(-90));
+    // create group of everything
+    var carGroup = new THREE.Group();
 
-    var RHELPER = new THREE.SpotLightHelper(lightR);
-
-    var LHELPER = new THREE.SpotLightHelper(lightL);
-
+    carGroup.sectionLen = SECTION_LEN;
+    carGroup.offGround = OFF_GROUND;
+    carGroup.chassisHeight = CHASSIS_HEIGHT;
+    carGroup.chassisWidth = CHASSIS_WIDTH;
 
     // add everything to group
-    var carGroup = new THREE.Group();
     carGroup.add(carMesh);
     carGroup.add(tireFR);
     carGroup.add(tireFL);
@@ -260,10 +248,6 @@ var Car = function () {
     carGroup.add(tireRL);
     carGroup.add(headlightR);
     carGroup.add(headlightL);
-    carGroup.add(lightR);
-    carGroup.add(lightL);
-    carGroup.add(RHELPER);
-    carGroup.add(LHELPER);
 
     carGroup.rotateTires = function(dis){
         tireFR.rotateY(-dis / 1.25);
