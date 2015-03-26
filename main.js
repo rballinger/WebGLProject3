@@ -55,7 +55,7 @@ require([], function(){
     var lightR	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
     lightR.position.set(30, 20, -30);
     lightR.target.position.set(10, 10, 10);
-    console.log(lightR.target.position);
+    //console.log(lightR.target.position);
     scene.add(lightR);
     var helper2 = new THREE.SpotLightHelper(lightR);
     scene.add(helper2);
@@ -133,6 +133,9 @@ require([], function(){
             /**** to select objects ******/
             case 84:    // 't' to select car
                 selected_obj = car;
+                break;
+            case 85:    // 'u' to select ufo
+                selected_obj = ufo;
                 break;
             case 67:    // 'c' to select camera
                 selected_obj = camera;
