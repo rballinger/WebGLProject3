@@ -165,7 +165,7 @@ var Car = function () {
         indexArr[currIndex] = i + topPoints;
         currIndex++;
         indexArr[currIndex] = i + topPoints + 2;
-        currIndex++
+        currIndex++;
         // second triangle of quad
         indexArr[currIndex] = i;
         currIndex++;
@@ -228,20 +228,49 @@ var Car = function () {
     tireRL.rotateZ(THREE.Math.degToRad(-90));
     tireRL.scale.set(0.25, 0.25, 0.25);
 
+    // create headlights
+    var geoHeadlight = new THREE.SphereGeometry(0.25, 20, 20);
+    var headlightMat = new THREE.MeshPhongMaterial({color:0xffff00});
+    var headlightR = new THREE.Mesh (geoHeadlight, headlightMat);
+    headlightR.position.set(0.5, 0, OFF_GROUND + CHASSIS_HEIGHT - 0.5);
+    var headlightL = new THREE.Mesh (geoHeadlight, headlightMat);
+    headlightL.position.set(CHASSIS_WIDTH - 0.5, 0, OFF_GROUND + CHASSIS_HEIGHT - 0.5);
+
+    // create actual headlights
+    var lightR	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
+    lightR.position.set(0, 0, 0);
+    //lightR.target = headlightR;
+    //lightR.rotateZ(THREE.Math.degToRad(-90));
+    var lightL	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
+    lightL.position.set(0, 0, 0);
+    //lightL.target = headlightL;
+    //lightL.rotateY(THREE.Math.degToRad(-90));
+
+    var RHELPER = new THREE.SpotLightHelper(lightR);
+
+    var LHELPER = new THREE.SpotLightHelper(lightL);
+
+
     // add everything to group
     var carGroup = new THREE.Group();
     carGroup.add(carMesh);
     carGroup.add(tireFR);
     carGroup.add(tireFL);
-    carGroup.add(tireRR)
+    carGroup.add(tireRR);
     carGroup.add(tireRL);
+    carGroup.add(headlightR);
+    carGroup.add(headlightL);
+    carGroup.add(lightR);
+    carGroup.add(lightL);
+    carGroup.add(RHELPER);
+    carGroup.add(LHELPER);
 
     carGroup.rotateTires = function(dis){
         tireFR.rotateY(-dis / 1.25);
         tireFL.rotateY(dis / 1.25);
         tireRR.rotateY(-dis / 1.25);
         tireRL.rotateY(dis / 1.25);
-    }
+    };
 
     return carGroup;
 };

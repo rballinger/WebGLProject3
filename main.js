@@ -21,7 +21,7 @@ require([], function(){
     // setup a scene and camera
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
-    camera.position.set(150, 100, 125);
+    camera.position.set(75, 50, 75);// 150 100 125
     camera.lookAt(scene.position);
 
     // declare the rendering loop
@@ -36,19 +36,32 @@ require([], function(){
 
     var ambientLight= new THREE.AmbientLight( 0x020202 );
     ambientLight.position.set(0, 20, 0);
-    scene.add( ambientLight);
+    //scene.add( ambientLight);
     var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
-    aboveLight.position.set(0, 5, 0);
+    aboveLight.position.set(0, 20, 0);
     scene.add( aboveLight );
+    var helper = new THREE.SpotLightHelper(aboveLight);
+    //scene.add(helper);
     var backLight	= new THREE.DirectionalLight('white', 1.0);
     backLight.position.set(0, 10, 20);
-    scene.add( backLight );
+    //scene.add( backLight );
     var backLight2	= new THREE.DirectionalLight('white', 1.0);
-    backLight2.position.set(20, 10, 20);
+    backLight2.position.set(-20, 10, 20);
     scene.add( backLight2 );
     var backLight3	= new THREE.DirectionalLight('white', 1.0);
     backLight3.position.set(20, 10, 0);
     //scene.add( backLight3 );
+
+    var lightR	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
+    lightR.position.set(30, 20, -30);
+    lightR.target.position.set(10, 10, 10);
+    console.log(lightR.target.position);
+    scene.add(lightR);
+    var helper2 = new THREE.SpotLightHelper(lightR);
+    scene.add(helper2);
+
+    var helper3 = new THREE.DirectionalLightHelper(backLight2, 20);
+    scene.add(helper3);
 
     //////////////////////////////////////////////////////////////////////////////////
     //		add an object and make it move					//

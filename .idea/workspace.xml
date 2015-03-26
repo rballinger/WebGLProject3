@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="530fcfb8-0da4-44a8-8d1a-85590514d5e1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/threejs-coord-frames" afterPath="$PROJECT_DIR$/threejs-coord-frames" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/Car.js" afterPath="$PROJECT_DIR$/models/Car.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.js" afterPath="$PROJECT_DIR$/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WebGLProject3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +31,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="3995">
-              <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="661" max-vertical-offset="4216">
+              <caret line="48" column="29" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -41,34 +40,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="UFO.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/UFO.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.346153" vertical-offset="204" max-vertical-offset="884">
-              <caret line="37" column="41" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="1139">
+              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Car.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Car.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/Car.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-77.53846" vertical-offset="1639" max-vertical-offset="4335">
-              <caret line="217" column="29" selection-start-line="217" selection-start-column="29" selection-end-line="217" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.8179916" vertical-offset="3842" max-vertical-offset="4828">
+              <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
               <folding>
                 <element signature="e#0#40#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UFO.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/UFO.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8615071" vertical-offset="104" max-vertical-offset="1139">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -90,9 +79,9 @@
         <option value="$PROJECT_DIR$/threejs-coord-frames/models/Wheel.js" />
         <option value="$PROJECT_DIR$/models/StreetLight.js" />
         <option value="$PROJECT_DIR$/models/Wheel.js" />
-        <option value="$PROJECT_DIR$/models/Car.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/models/Car.js" />
       </list>
     </option>
   </component>
@@ -543,6 +532,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/UFO.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="1139">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-16.346153" vertical-offset="204" max-vertical-offset="884">
@@ -553,8 +550,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="3995">
-          <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="661" max-vertical-offset="4216">
+          <caret line="48" column="29" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -563,19 +560,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/Car.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-77.53846" vertical-offset="1639" max-vertical-offset="4335">
-          <caret line="217" column="29" selection-start-line="217" selection-start-column="29" selection-end-line="217" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.8179916" vertical-offset="3842" max-vertical-offset="4828">
+          <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
           <folding>
             <element signature="e#0#40#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/UFO.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8615071" vertical-offset="104" max-vertical-offset="1139">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
