@@ -3,6 +3,9 @@
  */
 
 var Car = function () {
+
+
+
     var CHASSIS_LEN = 10;
     var CHASSIS_WIDTH = 4;
     var CHASSIS_HEIGHT = 1.5;
@@ -89,8 +92,6 @@ var Car = function () {
     for(var i = topPoints; i < topPoints * 2; i=i+2){
         check = i - topPoints;
         if(check >= roofStart * 2 && check < roofEnd + 4){
-            console.log(roofEnd);
-            console.log(check);
             tireSpace = OFF_GROUND;
         }else if(check == 6 || check == 7 || check == 64 || check == 65){
             tireSpace = OFF_GROUND + 0.5;
@@ -205,8 +206,45 @@ var Car = function () {
     geometry.addAttribute('index', new THREE.BufferAttribute(indexArr, 1));
 
     geometry.computeBoundingSphere();
-    return geometry;
-}
+
+    var carMat = new THREE.MeshPhongMaterial();
+    var carMesh = new THREE.Mesh(geometry, carMat);
+
+    // create tires
+    var tireFR = new Wheel();
+    tireFR.position.set(0, SECTION_LEN * 5.5, OFF_GROUND);
+    tireFR.rotateZ(THREE.Math.degToRad(90));
+    tireFR.scale.set(0.25, 0.25, 0.25);
+    var tireFL = new Wheel();
+    tireFL.position.set(CHASSIS_WIDTH, SECTION_LEN * 5.5, OFF_GROUND);
+    tireFL.rotateZ(THREE.Math.degToRad(-90));
+    tireFL.scale.set(0.25, 0.25, 0.25);
+    var tireRR = new Wheel();
+    tireRR.position.set(0, SECTION_LEN * 34.5, OFF_GROUND);
+    tireRR.rotateZ(THREE.Math.degToRad(90));
+    tireRR.scale.set(0.25, 0.25, 0.25);
+    var tireRL = new Wheel();
+    tireRL.position.set(CHASSIS_WIDTH, SECTION_LEN * 34.5, OFF_GROUND);
+    tireRL.rotateZ(THREE.Math.degToRad(-90));
+    tireRL.scale.set(0.25, 0.25, 0.25);
+
+    // add everything to group
+    var carGroup = new THREE.Group();
+    carGroup.add(carMesh);
+    carGroup.add(tireFR);
+    carGroup.add(tireFL);
+    carGroup.add(tireRR)
+    carGroup.add(tireRL);
+
+    carGroup.rotateTires = function(dis){
+        tireFR.rotateY(-dis / 1.25);
+        tireFL.rotateY(dis / 1.25);
+        tireRR.rotateY(-dis / 1.25);
+        tireRL.rotateY(dis / 1.25);
+    }
+
+    return carGroup;
+};
 
 /* Inherit from THREE.Object3D */
 Car.prototype = Object.create (THREE.Object3D.prototype);

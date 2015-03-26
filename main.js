@@ -21,7 +21,7 @@ require([], function(){
     // setup a scene and camera
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
-    camera.position.set(50, 15, 50);
+    camera.position.set(150, 100, 125);
     camera.lookAt(scene.position);
 
     // declare the rendering loop
@@ -60,41 +60,19 @@ require([], function(){
     var vscale = new THREE.Vector3();
 
     var car_cf = new THREE.Matrix4();
-    car_cf.makeTranslation(40, 10, 40);
+    car_cf.makeTranslation(20, 0, -20);
     car_cf.multiply(new THREE.Matrix4().makeRotationX(THREE.Math.degToRad(-90)));
     car_cf.decompose(tran, quat, vscale);
 
     // add car
     var car = new Car();
-    var carMat = new THREE.MeshPhongMaterial();
-    var carMesh = new THREE.Mesh(car, carMat);
     // set car to car_cf
-    carMesh.position.copy(tran);
-    carMesh.quaternion.copy(quat);
-    scene.add(carMesh);
-
-    // add cylinder (actually cone)
-    //var cone = new THREE.CylinderGeometry(0, 0.5, 2);
-    //var coneMat = new THREE.MeshPhongMaterial();
-    //var coneMesh = new THREE.Mesh(cone, coneMat);
-    //coneMesh.position.set(0, 0, 1.5);
-    //scene.add(coneMesh);
-
-    //var geometry = new THREE.BoxGeometry( 1, 1, 1);
-    //var material = new THREE.MeshPhongMaterial();
-    //var mesh = new THREE.Mesh( geometry, material );
-    //mesh.position.set(0, 0, 3);
-    //scene.add( mesh );
-
-    /*var groundPlane = new THREE.PlaneBufferGeometry(20, 20, 4, 4);
-    var groundMat = new THREE.MeshPhongMaterial({color:0x1d6438, ambient:0x1d6438});
-    var ground = new THREE.Mesh (groundPlane, groundMat);
-    //ground.rotateX(THREE.Math.degToRad(-90));
-    scene.add (ground);*/
+    car.position.copy(tran);
+    car.quaternion.copy(quat);
+    scene.add(car);
 
     // ground 
-    var groundPlane = new THREE.PlaneBufferGeometry(100, 100, 4, 4);
-    /* texture won't work on our Ground for some reason */
+    var groundPlane = new THREE.PlaneBufferGeometry(250, 250, 5, 5);
     //var groundPlane = new Ground();
     var asphaltTex = THREE.ImageUtils.loadTexture("textures/asphalt.jpg");
     asphaltTex.repeat.set(20, 20);
@@ -117,11 +95,6 @@ require([], function(){
 	var vaneBase = new WeatherVaneBase();
 	scene.add(vaneBase);
 
-	var tire = new Wheel();
-    tire.position.set(35, 10, 40);
-	tire.rotateX(Math.PI/2);
-	scene.add(tire);
-
     onRenderFcts.push(function(delta, now){
         // old code
         //mesh.rotateX(0.5 * delta);
@@ -139,13 +112,14 @@ require([], function(){
     }, false);
 
     var speed = 1.0;
+    var carSpeed = 0;
     var shift = false;  // if shift is being held or not
     var selected_obj = camera;
     document.addEventListener('keydown', function(event){
         switch(event.which){
             /**** to select objects ******/
             case 84:    // 't' to select car
-                selected_obj = carMesh;
+                selected_obj = car;
                 break;
             case 67:    // 'c' to select camera
                 selected_obj = camera;
@@ -191,13 +165,34 @@ require([], function(){
                 else
                     selected_obj.position.y -= speed;
                 break;
+            /***** other stuff ******/
+            case 73:    // 'i' "drive" car forward when it's selected
+                if(selected_obj == car) {
+                    carSpeed += 0.1;
+                    car.rotateTires(carSpeed);
+                    car.position.z += carSpeed;
+                }
+                break;
+            case 75:    // 'k' to drive car backward when it's selected
+                if(selected_obj == car) {
+                    carSpeed += 0.1;
+                    car.rotateTires(-carSpeed);
+                    car.position.z -= carSpeed;
+                }
+                break;
         }
     }, false);
 
     document.addEventListener('keyup', function(event){
         switch(event.which) {
-            case 16:
+            case 16:    // release shift to go back to translating instead of rotating
                 shift = false;
+                break;
+            case 73:    // release drive forward key to stop car
+                carSpeed = 0;
+                break;
+            case 75:    // release drive backward key to stop car
+                carSpeed = 0;
                 break;
         }
     }, false);
