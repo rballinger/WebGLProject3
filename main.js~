@@ -2,6 +2,12 @@
  * Created by Ryan on 3/23/2015.
  */
 
+/* Note: when viewed in browser to the user the coordinate system is:
+ *                   +y |
+ *                      |___ +x
+ *                  +z /
+ */
+
 require([], function(){
     // detect WebGL
     if( !Detector.webgl ){
@@ -15,7 +21,7 @@ require([], function(){
     // setup a scene and camera
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
-    camera.position.set(15, 10, 15);
+    camera.position.set(75, 50, 75);// 150 100 125
     camera.lookAt(scene.position);
 
     // declare the rendering loop
@@ -29,14 +35,33 @@ require([], function(){
     //////////////////////////////////////////////////////////////////////////////////
 
     var ambientLight= new THREE.AmbientLight( 0x020202 );
-    ambientLight.position.set(0, 0, 20);
-    scene.add( ambientLight);
-    var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 30, 2);
-    aboveLight.position.set(0, 0, 5);
+    ambientLight.position.set(0, 20, 0);
+    //scene.add( ambientLight);
+    var aboveLight	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
+    aboveLight.position.set(0, 20, 0);
     scene.add( aboveLight );
-    var backLight	= new THREE.DirectionalLight('white', 0.75);
-    backLight.position.set(2, 2, 10);
-    scene.add( backLight );
+    var helper = new THREE.SpotLightHelper(aboveLight);
+    //scene.add(helper);
+    var backLight	= new THREE.DirectionalLight('white', 1.0);
+    backLight.position.set(0, 10, 20);
+    //scene.add( backLight );
+    var backLight2	= new THREE.DirectionalLight('white', 1.0);
+    backLight2.position.set(-20, 10, 20);
+    scene.add( backLight2 );
+    var backLight3	= new THREE.DirectionalLight('white', 1.0);
+    backLight3.position.set(20, 10, 0);
+    //scene.add( backLight3 );
+
+    var lightR	= new THREE.SpotLight('white', 1.0, 30, 60, 2);
+    lightR.position.set(30, 20, -30);
+    lightR.target.position.set(10, 10, 10);
+    //console.log(lightR.target.position);
+    scene.add(lightR);
+    var helper2 = new THREE.SpotLightHelper(lightR);
+    scene.add(helper2);
+
+    var helper3 = new THREE.DirectionalLightHelper(backLight2, 20);
+    scene.add(helper3);
 
     //////////////////////////////////////////////////////////////////////////////////
     //		add an object and make it move					//
@@ -48,44 +73,28 @@ require([], function(){
     var vscale = new THREE.Vector3();
 
     var car_cf = new THREE.Matrix4();
-    car_cf.makeTranslation(1, 1, 0);
-    // car_cf.multiply(new THREE.Matrix4().makeRotationZ(THREE.Math.degToRad(delta * 72)));
+    car_cf.makeTranslation(20, 0, -20);
+    car_cf.multiply(new THREE.Matrix4().makeRotationX(THREE.Math.degToRad(-90)));
     car_cf.decompose(tran, quat, vscale);
 
     // add car
     var car = new Car();
-    var carMat = new THREE.MeshPhongMaterial();
-    var carMesh = new THREE.Mesh(car, carMat);
     // set car to car_cf
-    carMesh.position.copy(tran);
-    scene.add(carMesh);
-
-    // add cylinder (actually cone)
-    var cone = new THREE.CylinderGeometry(0, 0.5, 2);
-    var coneMat = new THREE.MeshPhongMaterial();
-    var coneMesh = new THREE.Mesh(cone, coneMat);
-    coneMesh.position.set(0, 0, 1.5);
-    scene.add(coneMesh);
-
-    var geometry = new THREE.BoxGeometry( 1, 1, 1);
-    var material = new THREE.MeshPhongMaterial();
-    var mesh = new THREE.Mesh( geometry, material );
-    mesh.position.set(0, 0, 3);
-    scene.add( mesh );
-
-    /*var groundPlane = new THREE.PlaneBufferGeometry(20, 20, 4, 4);
-    var groundMat = new THREE.MeshPhongMaterial({color:0x1d6438, ambient:0x1d6438});
-    var ground = new THREE.Mesh (groundPlane, groundMat);
-    //ground.rotateX(THREE.Math.degToRad(-90));
-    scene.add (ground);*/
+    car.position.copy(tran);
+    car.quaternion.copy(quat);
+    scene.add(car);
 
     // ground 
-    var ground = new Ground();
+    var groundPlane = new THREE.PlaneBufferGeometry(250, 250, 5, 5);
+    //var groundPlane = new Ground();
+    var asphaltTex = THREE.ImageUtils.loadTexture("textures/asphalt.jpg");
+    asphaltTex.repeat.set(20, 20);
+    asphaltTex.wrapS = THREE.MirroredRepeatWrapping;
+    asphaltTex.wrapT = THREE.RepeatWrapping;
+	var groundMat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438, map:asphaltTex});
+	var ground = new THREE.Mesh(groundPlane, groundMat);
+    ground.rotateX(THREE.Math.degToRad(-90));
     scene.add(ground);
-
-	// add color to ground
-	var groundMat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438});
-	scene.add(new THREE.Mesh(ground, groundMat));
 
 	// street light with curb
 	var streetLight = new StreetLight();
@@ -99,19 +108,11 @@ require([], function(){
 	var vaneBase = new WeatherVaneBase();
 	scene.add(vaneBase);
 
-    // Next 2 lines are so objects in scene can be placed and moved intuitively
-    // but camera will still have coordinate system of:
-    //               +y |                                 +z |
-    //                  |___ +x      instead of objects:     |____ +y
-    //              +z /                                 +x /
-    //
-    scene.rotateX(THREE.Math.degToRad(-90));
-    scene.rotateZ(THREE.Math.degToRad(-90));
-
     onRenderFcts.push(function(delta, now){
-        mesh.rotateX(0.5 * delta);
-        mesh.rotateY(2.0 * delta);
-        coneMesh.rotateZ(0.5 * delta);
+        // old code
+        //mesh.rotateX(0.5 * delta);
+        //mesh.rotateY(2.0 * delta);
+        //coneMesh.rotateZ(0.5 * delta);
     });
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -123,99 +124,91 @@ require([], function(){
         mouse.y	= (event.clientY / window.innerHeight) - 0.5;
     }, false);
 
-    var speed = 0.5;
+    var speed = 1.0;
+    var carSpeed = 0;
     var shift = false;  // if shift is being held or not
-    var selected_obj = carMesh;
+    var selected_obj = camera;
     document.addEventListener('keydown', function(event){
         switch(event.which){
+            /**** to select objects ******/
+            case 84:    // 't' to select car
+                selected_obj = car;
+                break;
+            case 85:    // 'u' to select ufo
+                selected_obj = ufo;
+                break;
+            case 67:    // 'c' to select camera
+                selected_obj = camera;
+                break;
+            /**** hold shift to rotate objects *****/
             case 16:    // hold shift to rotate objects
                 shift = true;
                 break;
-            /**** for camera only ******/
-            case 65:    // 'a' moves along normal +x-axis, rotates on +z-axis
-                if(shift)
-                    camera.rotateY(THREE.Math.degToRad(speed * 5));
-                else
-                    camera.position.z += speed;
-                break;
-            case 68:    // 'd' moves along normal +x-axis, rotates on -z-axis
-                if(shift)
-                    camera.rotateY(THREE.Math.degToRad(-speed * 5));
-                else
-                    camera.position.z -= speed;
-                break;
-            case 69:    // 'e' moves along normal +y-axis, rotates on -x-axis
-                if(shift)
-                    camera.rotateZ(THREE.Math.degToRad(-speed * 5));
-                else
-                    camera.position.x += speed;
-                break;
-            case 81:    // 'q' moves along normal -y-axis, rotates on x-axis
-                if(shift)
-                    camera.rotateZ(THREE.Math.degToRad(speed * 5));
-                else
-                    camera.position.x -= speed;
-                break;
-            case 87:    // 'w' moves along normal +z-axis, rotates on +y-axis
-                if(shift)
-                    camera.rotateX(THREE.Math.degToRad(speed * 5));
-                else
-                    camera.position.y += speed;
-                break;
-            case 83:    // 's' moves along normal -z-axis, rotates on -y-axis
-                    if(shift)
-                        camera.rotateX(THREE.Math.degToRad(-speed * 5));
-                    else
-                        camera.position.y -= speed;
-                break;
-            /**** to select objects ******/
-            case 84:    // 't' to select car
-                selected_obj = carMesh;
-                break;
-            /***** for moving/rotating objects *****/
-            case 75:    // 'k' moves along normal +x-axis, rotates on +x-axis
-                if(shift)
-                    selected_obj.rotateX(THREE.Math.degToRad(speed * 5));
-                else
-                    selected_obj.position.x += speed;
-                break;
-            case 186:    // ';' moves along normal +x-axis, rotates on -x-axis
-                if(shift)
-                    selected_obj.rotateX(THREE.Math.degToRad(-speed * 5));
-                else
-                    selected_obj.position.x -= speed;
-                break;
-            case 80:    // 'p' moves along normal +y-axis, rotates on +y-axis
+            /**** for moving/rotating selected object ******/
+            case 65:    // 'a' moves along normal +z-axis, rotates on +y-axis
                 if(shift)
                     selected_obj.rotateY(THREE.Math.degToRad(speed * 5));
                 else
-                    selected_obj.position.y += speed;
+                    selected_obj.position.z += speed;
                 break;
-            case 73:    // 'i' moves along normal -y-axis, rotates on -y-axis
+            case 68:    // 'd' moves along normal -z-axis, rotates on -y-axis
                 if(shift)
                     selected_obj.rotateY(THREE.Math.degToRad(-speed * 5));
                 else
-                    selected_obj.position.y -= speed;
+                    selected_obj.position.z -= speed;
                 break;
-            case 79:    // 'o' moves along normal +z-axis, rotates on +z-axis
-                if(shift)
-                    selected_obj.rotateZ(THREE.Math.degToRad(speed * 5));
-                else
-                    selected_obj.position.z += speed;
-                break;
-            case 76:    // 'l' moves along normal -z-axis, rotates on -z-axis
+            case 69:    // 'e' moves along normal +x-axis, rotates on -z-axis
                 if(shift)
                     selected_obj.rotateZ(THREE.Math.degToRad(-speed * 5));
                 else
-                    selected_obj.position.z -= speed;
+                    selected_obj.position.x += speed;
+                break;
+            case 81:    // 'q' moves along normal -x-axis, rotates on +z-axis
+                if(shift)
+                    selected_obj.rotateZ(THREE.Math.degToRad(speed * 5));
+                else
+                    selected_obj.position.x -= speed;
+                break;
+            case 87:    // 'w' moves along normal +y-axis, rotates on +x-axis
+                if(shift)
+                    selected_obj.rotateX(THREE.Math.degToRad(speed * 5));
+                else
+                    selected_obj.position.y += speed;
+                break;
+            case 83:    // 's' moves along normal -y-axis, rotates on -x-axis
+                if(shift)
+                    selected_obj.rotateX(THREE.Math.degToRad(-speed * 5));
+                else
+                    selected_obj.position.y -= speed;
+                break;
+            /***** other stuff ******/
+            case 73:    // 'i' "drive" car forward when it's selected
+                if(selected_obj == car) {
+                    carSpeed += 0.1;
+                    car.rotateTires(carSpeed);
+                    car.position.z += carSpeed;
+                }
+                break;
+            case 75:    // 'k' to drive car backward when it's selected
+                if(selected_obj == car) {
+                    carSpeed += 0.1;
+                    car.rotateTires(-carSpeed);
+                    car.position.z -= carSpeed;
+                }
                 break;
         }
     }, false);
 
     document.addEventListener('keyup', function(event){
         switch(event.which) {
-            case 16:
+            case 16:    // release shift to go back to translating instead of rotating
                 shift = false;
+                break;
+            case 73:    // release drive forward key to stop car
+                carSpeed = 0;
+                break;
+            case 75:    // release drive backward key to stop car
+                carSpeed = 0;
                 break;
         }
     }, false);

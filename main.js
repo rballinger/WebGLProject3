@@ -77,7 +77,7 @@ require([], function(){
     scene.add(lightR);
     scene.add(lightL);
 
-    // ground 
+    // ground
     var groundPlane = new THREE.PlaneBufferGeometry(250, 250, 5, 5);
     //var groundPlane = new Ground();
     var asphaltTex = THREE.ImageUtils.loadTexture("textures/asphalt.jpg");
@@ -92,7 +92,6 @@ require([], function(){
 	// street light with curb
 	var streetLight = new StreetLight();
     streetLight.rotateY(THREE.Math.degToRad(90));
-    console.log(streetLight.position);
     streetLight.position.set(0, 8, 10);
 	scene.add(streetLight);
     // spotlight for streetlight
@@ -111,13 +110,6 @@ require([], function(){
 	// Weather vane base
 	var vaneBase = new WeatherVaneBase();
 	scene.add(vaneBase);
-
-    onRenderFcts.push(function(delta, now){
-        // old code
-        //mesh.rotateX(0.5 * delta);
-        //mesh.rotateY(2.0 * delta);
-        //coneMesh.rotateZ(0.5 * delta);
-    });
 
     //////////////////////////////////////////////////////////////////////////////////
     //		Camera Controls							//
