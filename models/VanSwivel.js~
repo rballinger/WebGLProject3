@@ -1,7 +1,7 @@
 /**
  * Created by dan on 3/24/15.
  */
-StreetLight = function(len) {
+VanSwivel = function(len) {
 
     // color of elbow, shade and post
     var frameMat = new THREE.MeshPhongMaterial({color:0xbebebe});
@@ -67,6 +67,5 @@ StreetLight = function(len) {
 }
 
 /* Inherit Wheel from THREE.Object3D */
-StreetLight.prototype = Object.create (THREE.Object3D.prototype);
-StreetLight.prototype.constructor = StreetLight;
-
+VanSwivel.prototype = Object.create (THREE.Object3D.prototype);
+VanSwivel.prototype.constructor = VanSwivel;

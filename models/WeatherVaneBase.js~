@@ -3,11 +3,7 @@
  */
 WeatherVaneBase = function() {
 
-        var diamondCutSteelTex = THREE.ImageUtils.loadTexture("textures/diamondCutSteel.jpg");
-    diamondCutSteelTex.repeat.set(3, 1);
-    diamondCutSteelTex.wrapS = THREE.MirroredRepeatWrapping;
-    diamondCutSteelTex.wrapT = THREE.RepeatWrapping;
-	var baseMat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438, map:diamondCutSteelTex});
+	var baseMat = new THREE.MeshPhongMaterial({color:0x696969});
 
     // group objects together
     var group = new THREE.Group();

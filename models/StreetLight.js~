@@ -17,8 +17,9 @@ StreetLight = function(len) {
 
     var concrete2Tex = THREE.ImageUtils.loadTexture("textures/concrete2.jpg");
     concrete2Tex.repeat.set(1, 1);
-    concrete2Tex.wrapS = THREE.MirroredRepeatWrapping;
-    concrete2Tex.wrapT = THREE.RepeatWrapping;
+    concrete2Tex.minFilter = THREE.NearestFilter;
+    //concrete2Tex.wrapS = THREE.MirroredRepeatWrapping;
+    //concrete2Tex.wrapT = THREE.RepeatWrapping;
 	var concrete2Mat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438, map:concrete2Tex});
 
 
@@ -64,4 +65,8 @@ StreetLight = function(len) {
     group.translateY (8);
     return group;
 }
+
+/* Inherit Wheel from THREE.Object3D */
+StreetLight.prototype = Object.create (THREE.Object3D.prototype);
+StreetLight.prototype.constructor = StreetLight;
 

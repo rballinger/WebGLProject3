@@ -98,7 +98,7 @@ WeatherVaneBase = function() {
     group.add (crossMemberSeven);
     group.add (crossMemberEight);
 
-    group.translateX (-88);
+    //group.translateX (-88);
     //group.translateY (18);
     //group.translateY (28);
     return group;
