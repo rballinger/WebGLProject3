@@ -22,8 +22,10 @@ require([], function(){
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
     camera.position.set(225, 100, 120);
+    camera.position.set(-10, 25, 50);
     //camera.position.set(45, 25, 32);
-    camera.lookAt(scene.position);
+    camera.lookAt(new THREE.Vector3(-9, 25, 50));
+    //camera.lookAt(scene.position);
 
 	// determines if call-back will render new scene
 	var run = false;
@@ -190,6 +192,15 @@ require([], function(){
 
 	vaneSwivel.add(fan);
 	//fan_cf.makeTranslation(12, 0, 1.5);
+
+    // create cube map for environment mapping of current scene
+
+    // add sphere for environment mapping
+    var sphereGeo = new THREE.SphereGeometry(15);
+    var sphereMat = new THREE.MeshPhongMaterial();
+    var sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
+    sphereMesh.position.set(-10, 25, 50);
+    scene.add(sphereMesh);
 
     onRenderFcts.push(function(delta, now){
 		if(run){
