@@ -9,6 +9,20 @@ StreetLight = function(len) {
     // color of elbow, shade and post
     var baseMat = new THREE.MeshPhongMaterial({color:0x696969});
 
+    var concrete1Tex = THREE.ImageUtils.loadTexture("textures/concrete.jpg");
+    concrete1Tex.repeat.set(1, 1);
+    concrete1Tex.wrapS = THREE.MirroredRepeatWrapping;
+    concrete1Tex.wrapT = THREE.RepeatWrapping;
+	var concrete1Mat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438, map:concrete1Tex});
+
+    var concrete2Tex = THREE.ImageUtils.loadTexture("textures/concrete2.jpg");
+    concrete2Tex.repeat.set(1, 1);
+    concrete2Tex.minFilter = THREE.NearestFilter;
+    //concrete2Tex.wrapS = THREE.MirroredRepeatWrapping;
+    //concrete2Tex.wrapT = THREE.RepeatWrapping;
+	var concrete2Mat = new THREE.MeshPhongMaterial({color:0x696969,ambient:0x1d6438, map:concrete2Tex});
+
+
     // group objects together
     var group = new THREE.Group();
 
@@ -18,7 +32,7 @@ StreetLight = function(len) {
 
     // base
     var baseGeo = new THREE.CylinderGeometry(2.25, 2.25, 6, 24);
-    var base = new THREE.Mesh (baseGeo, baseMat);
+    var base = new THREE.Mesh (baseGeo, concrete1Mat);
 
     // elbow
     var elbowGeo = new THREE.TorusGeometry(6, 0.75, 20, 24, Math.PI);
@@ -31,7 +45,7 @@ StreetLight = function(len) {
 
     // curb
     var curbGeo = new THREE.CylinderGeometry(15.0, 15.0, 2, 4);
-    var curb = new THREE.Mesh (curbGeo, frameMat);
+    var curb = new THREE.Mesh (curbGeo, concrete2Mat);
     curb.rotateY (Math.PI/4);
 
     // position the primitive objects
@@ -51,4 +65,8 @@ StreetLight = function(len) {
     group.translateY (8);
     return group;
 }
+
+/* Inherit Wheel from THREE.Object3D */
+StreetLight.prototype = Object.create (THREE.Object3D.prototype);
+StreetLight.prototype.constructor = StreetLight;
 

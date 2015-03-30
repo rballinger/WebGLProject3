@@ -67,3 +67,7 @@ var Ground = function () {
     geometry.computeBoundingSphere();
     return geometry;
 }
+
+/* Inherit Wheel from THREE.Object3D */
+Ground.prototype = Object.create (THREE.Object3D.prototype);
+Ground.prototype.constructor = Ground;

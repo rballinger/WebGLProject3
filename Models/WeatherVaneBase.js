@@ -3,8 +3,7 @@
  */
 WeatherVaneBase = function() {
 
-    // color of base structure of weather vane
-    var baseMat = new THREE.MeshPhongMaterial({color:0xbebebe});
+	var baseMat = new THREE.MeshPhongMaterial({color:0x696969});
 
     // group objects together
     var group = new THREE.Group();
@@ -57,13 +56,13 @@ WeatherVaneBase = function() {
 
     var geoCrossMemberThree = new THREE.CylinderGeometry(0.5, 0.5, 11, 22);
     var crossMemberThree = new THREE.Mesh (geoCrossMemberThree, baseMat);
-    crossMemberThree.position.set (-12.0, 22, 49);
+    crossMemberThree.position.set (-12.0, 22, 48.8);
     crossMemberThree.rotateX (Math.PI/2);
     crossMemberThree.rotateZ (Math.PI/2);
 
     var geoCrossMemberFour = new THREE.CylinderGeometry(0.5, 0.5, 11, 22);
     var crossMemberFour = new THREE.Mesh (geoCrossMemberFour, baseMat);
-    crossMemberFour.position.set (-12.0, 22, 58);
+    crossMemberFour.position.set (-12.0, 22, 59.4);
     crossMemberFour.rotateX (Math.PI/2);
     crossMemberFour.rotateZ (Math.PI/2);
 
@@ -99,7 +98,7 @@ WeatherVaneBase = function() {
     group.add (crossMemberSeven);
     group.add (crossMemberEight);
 
-    group.translateX (-88);
+    //group.translateX (-88);
     //group.translateY (18);
     //group.translateY (28);
     return group;
