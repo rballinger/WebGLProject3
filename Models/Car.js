@@ -203,7 +203,7 @@ var Car = function () {
 
     geometry.computeBoundingSphere();
 
-    var carMat = new THREE.MeshPhongMaterial();
+    var carMat = new THREE.MeshPhongMaterial({color: 0x0000ff});
     var carMesh = new THREE.Mesh(geometry, carMat);
 
     // create tires

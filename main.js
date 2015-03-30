@@ -22,7 +22,7 @@ require([], function(){
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
     camera.position.set(225, 100, 120);
-    camera.position.set(45, 25, 32);
+    //camera.position.set(45, 25, 32);
     camera.lookAt(scene.position);
 
 	// determines if call-back will render new scene
