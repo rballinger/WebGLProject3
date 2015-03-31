@@ -22,10 +22,7 @@ require([], function(){
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
     camera.position.set(225, 100, 120);
-    camera.position.set(-10, 25, 50);
-    //camera.position.set(45, 25, 32);
-    camera.lookAt(new THREE.Vector3(-9, 25, 50));
-    //camera.lookAt(scene.position);
+    camera.lookAt(scene.position);
 
 	// determines if call-back will render new scene
 	var run = false;
@@ -193,11 +190,17 @@ require([], function(){
 	vaneSwivel.add(fan);
 	//fan_cf.makeTranslation(12, 0, 1.5);
 
+
     // create cube map for environment mapping of current scene
+    var path = "textures/scene_envmap/"
+    var images = [path + "neg_x.jpg", path + "pos_x.jpg",
+        path + "pos_y.jpg", path + "neg_y.jpg",
+        path + "pos_z.jpg", path + "neg_z.jpg"];
+    var cubemap = THREE.ImageUtils.loadTextureCube( images );
 
     // add sphere for environment mapping
-    var sphereGeo = new THREE.SphereGeometry(15);
-    var sphereMat = new THREE.MeshPhongMaterial();
+    var sphereGeo = new THREE.SphereGeometry(15, 30, 20);
+    var sphereMat = new THREE.MeshBasicMaterial({envMap:cubemap});
     var sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
     sphereMesh.position.set(-10, 25, 50);
     scene.add(sphereMesh);
